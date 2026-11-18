@@ -1,103 +1,77 @@
-# Optimizer Sodium Addon
+# Optimization Sodium Addon
 
-NeoForge 1.21.1 (21.1.264) · modid `optimizersodiumaddon` · paquete `nadiendev.osa` · autor NadienDev
+Lag reduction for big modpacks, on the server and on the client. It adds no blocks or items and sends no network packets, so players without it can join a server that has it, and you can remove it at any time.
 
-Se instala en **cliente y servidor**. No agrega bloques, ítems ni paquetes de red, así que un cliente sin el mod puede entrar a un server que lo tiene, y al revés.
+## Server
 
-## Compilar
+*   **Armor stands**: no more push checks every tick, and they tick less when no player is near.
+*   **Far-away mobs**: mobs with no player nearby only tick 1 in N ticks (default 1 in 4). Activation range and a whitelist are configurable.
+*   **Dropped items**: merge from a wider radius and despawn sooner (default 3 minutes).
+*   **XP orbs**: nearby orbs merge into one. Turns itself off if Clumps is installed.
+*   **Asynchronous saving**: world data and `level.dat` are written off the main thread and flushed on shutdown. On 1.21.11 and newer vanilla already saves world data in the background, so the addon only handles `level.dat`.
+*   **Dedicated server threads**: background workers can use every CPU core (configurable).
+*   **Crafting**: tries the last used recipe first, which saves a lot of time on packs with thousands of recipes.
+*   **Discord lag alerts**: a webhook message when the tick time stays high or a single chunk holds too many entities.
+*   **Optional**: remove the "Moved too quickly" check. Off by default, because it disables an anti-cheat protection.
 
-```
-gradlew build
-```
-El jar queda en `build/libs/`. La primera vez Gradle baja NeoForge y Minecraft, así que tarda.
+## Client
 
-## Qué hace
+*   **Render limits**: only the closest armor stands, dropped items and XP orbs are drawn, with a distance cap for each.
+*   **Particle caps**: limits on live particles, new particles per tick and distance.
+*   **GPU memory leak fix**: frees video memory from render targets the game drops without closing.
+*   **Borderless fullscreen**: F11 switches between windowed and borderless. Not included on 26.3, where the game already does it. Based on [Minecraft Borderless Window](https://www.curseforge.com/minecraft/mc-mods/minecraft-borderless-window) (MIT).
+*   **Fog and overlays**: switch off terrain, water, lava and powder snow fog, and the water and fire screen overlays. Blindness and Darkness fog are never touched. Based on [Minecraft Borderless Window](https://www.curseforge.com/minecraft/mc-mods/minecraft-borderless-window) (MIT).
+*   **Join timer**: shows how long each stage of joining a server took, so you can see what is slow.
+*   **Compact Machines preview fix** (NeoForge 1.21.1 only): frees the memory of the 3D room preview. Works with Compact Machines and Compact Machines: Sandbox Edition.
 
-### Servidor
-| Función | Config |
-|---|---|
-| Armor stands: no buscan minecarts para empujar en cada tick | `armorStands.disablePush` |
-| Armor stands lejos de jugadores tickean menos | `armorStands.throttleWhenFar` |
-| Mobs lejos de jugadores tickean 1 de cada N ticks | `ai.*` |
-| Items iguales se juntan desde más lejos | `items.mergeRadius` |
-| Items tirados duran menos (3 min por defecto) | `items.lifespanTicks` |
-| Orbes de XP se juntan aunque tengan distinto valor | `xp.*` |
-| Alertas de lag a Discord por webhook | `alerts.*` |
-| Hilos de fondo = todos los núcleos (solo server dedicado) | `config/optimizersodiumaddon-threads.properties` |
-| Guardado de datos del mundo y level.dat en otro hilo | `performance.asyncSave` (common) |
-| Crafteo: prueba primero la última receta usada | `performance.craftingRecipeHint` (common) |
-| Quitar el límite de "Moved too quickly" (desactivado por defecto) | `performance.ignoreMoveSpeedLimit` (common) |
+## Sodium
 
-Config del server: `world/serverconfig/optimizersodiumaddon-server.toml`. El webhook de Discord va en `config/optimizersodiumaddon-common.toml`. En un server dedicado: `world/serverconfig/`. Para que se aplique a mundos nuevos, copialo a `defaultconfigs/`.
+With Sodium installed, the addon adds its own section to Sodium's video settings, with pages for General, Fog and overlays, Render limits and Particles. Sodium is optional. On NeoForge the options are also in the Mods menu. Sodium 1.20.1 has no config API, so on 1.20.1 the client options live in the config file.
 
-### Cliente
-| Función | Config |
-|---|---|
-| Solo se dibujan los N armor stands más cercanos | `armorStands.*` |
-| Límite de ítems y orbes dibujados | `items.*`, `xp.*` |
-| Tope de partículas por tick, total y por distancia | `particles.*` |
-| Libera la memoria del preview 3D de Compact Machines | `compat.compactMachinesPreviewFix` |
-| Libera la memoria de video de los RenderTarget descartados | `gpu.leakFix` |
-| F11 alterna ventana / pantalla completa sin bordes | `window.borderlessF11` |
-| Quitar niebla de terreno, agua, lava y nieve en polvo | `fog.*` |
-| Quitar la textura de agua y las llamas sobre la vista | `overlays.*` |
-| Cronómetro de entrada al server: dice en el chat y en el log cuánto tardó cada etapa | siempre activo |
-| No dibujar la pantalla de carga de Mojang al recargar recursos, y mostrar el tiempo de la recarga | `reload.hideOverlay`, `reload.counter` |
-| Informe de los listeners más lentos de cada recarga y lista para saltar los que no hacen falta | `reload.profile`, `reload.skipListeners` |
-| Ajuste automático según el hardware, sin pisar lo que ya cambiaste | `autoTune.*` |
-| Luces dinámicas (antorchas en mano, ítems tirados, mobs, entidades en llamas) | `dynamicLights.*` |
-| Matemáticas rápidas (seno y coseno por tabla al dibujar) | `math.fastMath` |
-| Omitir un bloque que falla al dibujarse en vez de cerrar el juego | `stability.skipBrokenBlocks` |
-| Agrupar las limpiezas de colores de bioma que causan tirones | `stability.coalesceTints` |
-| Césped y nieve mejorados en los escalones | `terrain.betterGrass` |
-| Culling de entidades Display y armor stands (distancia, cámara y muros) | `entityCulling.*` |
-| Mostrar en el título cuánto tardó en arrancar el juego | `startup.timer` |
+## Commands
 
-Config del cliente: `config/optimizersodiumaddon-client.toml`.
+All need OP.
 
-### Comandos del cliente
+*   `/osa stats` entities, items, XP, armor stands, block entities and chunks per dimension, plus RAM
+*   `/osa tps` tick time and TPS
+*   `/osa top [n]` the heaviest chunks around you, with coordinates
+*   `/osa kill items|xp|armorstands|hostile|passive|mobs [radius]` cleans up entities. Never touches players, named, tamed, leashed or ridden mobs, or bosses
+*   `/osa blockentities list [radius]` block entities by type
+*   `/osa memory [gc|heapdump]` RAM and GC stats, force a GC, or dump the heap
+*   `/osa alert test` sends a test message to Discord
+*   `/osa reload` reloads the config (Fabric)
 
-| Comando | Qué hace |
-|---|---|
-| `/osareload` | Muestra en el chat el tiempo de la última recarga de recursos; `on` y `off` lo escriben tras cada recarga |
-| `/osatune [info|auto|low|medium|high]` | Detecta el hardware o aplica un perfil gráfico |
-| `/osacull` | Muestra los contadores del culling de entidades; `reset` los pone a cero |
+## Supported versions
 
-## Comandos (`/osa`, nivel OP 2+)
+| Minecraft | NeoForge | Fabric |
+| --------- | -------- | ------ |
+| 1.20.1    | -        | yes    |
+| 1.21.1    | yes      | yes    |
+| 1.21.11   | yes      | yes    |
+| 26.1.2    | yes      | yes    |
+| 26.2      | yes      | yes    |
+| 26.3      | yes      | yes    |
 
-| Comando | Qué hace |
-|---|---|
-| `/osa stats` | Entidades, items, xp, armor stands, block entities y chunks por dimensión + RAM |
-| `/osa tps` | MSPT y TPS |
-| `/osa top [n]` | Los chunks más pesados de tu dimensión, con coordenadas |
-| `/osa kill items\|xp\|armorstands\|hostile\|passive\|mobs [radio]` | Borra entidades (OP 3) |
-| `/osa kill type <entidad> [radio]` | Borra un tipo concreto |
-| `/osa blockentities list [radio]` | Block entities por tipo |
-| `/osa blockentities remove <tipo> <radio> confirm` | **Borra esos bloques** (OP 4, radio máx. 128) |
-| `/osa alert test` | Manda una alerta de prueba a Discord |
-| `/osa memory` | RAM y GC; `gc` fuerza un GC (OP 3), `heapdump` vuelca el heap a `heap_dump/` (OP 4) |
+Fabric versions need Fabric API.
 
-`kill` nunca toca jugadores, mobs con nombre, mascotas, atados, montados ni jefes. Usa `discard()`: no suelta drops ni XP.
+## Configuration
 
-## Alertas de Discord
+Every feature has an on/off switch and its values in the config folder. NeoForge uses `optimizersodiumaddon-client.toml`, `optimizersodiumaddon-common.toml` (this is where the Discord webhook goes, and it is never sent to players) and the server config of each world. Fabric uses a single `optimizersodiumaddon.json`.
 
-1. En Discord: Ajustes del canal → Integraciones → Webhooks → Nuevo webhook → Copiar URL.
-2. En `config/optimizersodiumaddon-common.toml` (no se manda a los jugadores, así nadie puede ver la URL):
-   ```toml
-   [discord]
-   enabled = true
-   webhookUrl = "https://discord.com/api/webhooks/..."
-   ```
-3. `/reload` no recarga este archivo; NeoForge lo recarga solo al guardarlo. Probalo con `/osa alert test`.
+## FAQ
 
-Avisa cuando el MSPT pasa `msptThreshold` durante `sustainSeconds` seguidos, o cuando un chunk supera `chunkEntityThreshold` entidades. Manda los 5 chunks más pesados con coordenadas y el tipo de entidad o block entity más común.
+**Do I need Sodium?** No. The client options page only appears when Sodium is installed.
 
-## Compatibilidad con otros mods
+**Client, server or both?** Both for the full effect. Server only gives you the server features, and client only gives you the client features.
 
-- Con Clumps instalado, el addon deja de juntar orbes de XP en el servidor.
-- Entity Culling, Spark y ModernFix no se duplican: el addon no hace nada de lo que ya hacen.
-- Sodium y Chloride son solo dependencias de compilación opcionales; el addon funciona sin ellos.
+**Is it safe to remove?** Yes. It adds no content to the world.
 
-## Los hilos solo existen en el server dedicado
+## Credits and license
 
-`optimizersodiumaddon-threads.properties` solo se aplica en un servidor dedicado. En un cliente o en un mundo de un jugador no hace nada, a propósito. Para verlo: `gradlew runServer` y buscar en el log `hilos de fondo =`.
+Parts of this mod are based on code from [Minecraft Borderless Window](https://www.curseforge.com/minecraft/mc-mods/minecraft-borderless-window) by [ArrivedBog593](https://www.curseforge.com/members/arrivedbog593/projects), used under the MIT License:
+
+*   Borderless fullscreen and the F11 window modes
+*   Fog toggles (terrain, water, lava and powder snow)
+*   Screen overlay toggles (water and fire)
+
+The original copyright notice and the full MIT License text are included in the [LICENSE](https://github.com/NadienDevMC/Optimization-Sodium-Addon/blob/Neo/1.21.1/LICENSE) file. Thanks to ArrivedBog593 for the original work.
