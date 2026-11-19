@@ -1,24 +1,34 @@
 # Optimizer Sodium Addon
 
-NeoForge 26.2 (26.2.0.90) · modid `optimizersodiumaddon` · paquete `nadiendev.osa` · autor NadienDev
+NeoForge 26.2 (26.2.0.90) · modid `optimizersodiumaddon` · package `nadiendev.osa` · author NadienDev
 
-Se instala en **cliente y servidor**. No agrega bloques, items ni paquetes de red.
+Install it on **both client and server**. It adds no blocks, items or network packets.
 
-## Compilar
+## Building
 
 ```
 gradlew build
 ```
 
-Requiere JDK 25. El jar queda en `build/libs/`.
+Requires JDK 25. The jar ends up in `build/libs/`.
 
-## Diferencias respecto a 1.21.1
+## Differences from 1.21.1
 
-- El guardado de SavedData ya es asincrono en el propio juego, asi que solo se mueve a otro hilo `level.dat`.
-- El arreglo de fuga de GPU cierra las texturas y vistas de los `RenderTarget` descartados.
-- La niebla y las superposiciones usan los eventos de 26.2 (`FogData`, tipo `ATMOSPHERIC` para el terreno).
-- Los hilos de fondo del servidor dedicado se aplican sobre `Util.maxAllowedExecutorThreads`.
-- Los permisos de `/osa` usan el sistema de permisos nuevo (gamemaster / admin / owner).
-- La pagina de opciones de Sodium usa `sodium-neoforge-api` 0.9.2+mc26.2.
+- SavedData saving is already asynchronous in the game itself, so only `level.dat` is moved to another thread.
+- The GPU leak fix closes the textures and views of discarded `RenderTarget`s.
+- Fog and overlays use the 26.2 events (`FogData`, `ATMOSPHERIC` type for terrain).
+- Dedicated server background threads are applied on top of `Util.maxAllowedExecutorThreads`.
+- `/osa` permissions use the new permission system (gamemaster / admin / owner).
+- The Sodium options page uses `sodium-neoforge-api` 0.9.2+mc26.2.
 
-Funciones, comandos y opciones de config: igual que en la version 1.21.1.
+Features, commands and config options: same as in the 1.21.1 version.
+
+## Credits and license
+
+Parts of this mod are based on code from [Minecraft Borderless Window](https://www.curseforge.com/minecraft/mc-mods/minecraft-borderless-window) by [ArrivedBog593](https://www.curseforge.com/members/arrivedbog593/projects), used under the MIT License:
+
+*   Borderless fullscreen and the F11 window modes
+*   Fog toggles (terrain, water, lava and powder snow)
+*   Screen overlay toggles (water and fire)
+
+The original copyright notice and the full MIT License text are included in [THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt), which is also packaged inside the mod jar. Thanks to ArrivedBog593 for the original work.
