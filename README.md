@@ -1,24 +1,24 @@
 # Optimizer Sodium Addon
 
-NeoForge 1.21.11 (21.11.48) · Sodium 0.8.14 (API de configuracion) · modid `optimizersodiumaddon` · paquete `nadiendev.osa` · autor NadienDev
+NeoForge 1.21.11 (21.11.48) · Sodium 0.8.14 (config API) · modid `optimizersodiumaddon` · package `nadiendev.osa` · author NadienDev
 
-Se instala en **cliente y servidor**. No agrega bloques, items ni paquetes de red.
+Install it on **both client and server**. It adds no blocks, items or network packets.
 
-## Compilar
+## Building
 
 ```
 JAVA_HOME="C:/Program Files/Java/jdk-21" ./gradlew build
 ```
-El jar queda en `build/libs/`.
+The jar ends up in `build/libs/`.
 
-## Diferencias con la version 1.21.1
+## Differences from 1.21.1
 
-- El guardado de `SavedData` ya es asincrono en el juego base, asi que solo se guarda `level.dat` en otro hilo (`performance.asyncSave`).
-- La fuga de memoria de GPU se corrige cerrando las texturas y vistas de los `RenderTarget` descartados.
-- Las opciones de niebla modifican los datos de niebla del evento de render (la de Ceguera y Oscuridad no se toca).
-- Los hilos de fondo del servidor dedicado se cambian en `Util.maxAllowedExecutorThreads`.
+- `SavedData` saving is already asynchronous in the base game, so only `level.dat` is saved on another thread (`performance.asyncSave`).
+- The GPU memory leak is fixed by closing the textures and views of discarded `RenderTarget`s.
+- The fog options modify the fog data of the render event (Blindness and Darkness fog is never touched).
+- Dedicated server background threads are changed in `Util.maxAllowedExecutorThreads`.
 
-El resto de funciones, opciones de configuracion y comandos `/osa` son los mismos que en 1.21.1.
+All other features, config options and `/osa` commands are the same as in 1.21.1.
 
 ## Credits and license
 
