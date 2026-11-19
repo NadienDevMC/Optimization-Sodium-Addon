@@ -23,3 +23,13 @@ Las opciones de cliente tambien se editan desde la pagina "Optimizer Sodium Addo
 Iguales a la version NeoForge 1.21.1: armor stands, mobs lejanos, items, orbes de XP, guardado asincrono, hilos de fondo, alertas de Discord, limites de dibujado, particulas, arreglo de fuga de GPU, F11 sin bordes, niebla y superposiciones, cronometro de entrada y `/osa` (`stats`, `tps`, `top`, `kill`, `blockentities`, `alert test`, `memory`, mas `reload`).
 
 Diferencias con 1.21.1: el guardado asincrono de SavedData no se parchea porque Minecraft 1.21.11 ya lo hace asincrono; `asyncSave` sigue aplicandose a level.dat. La niebla se controla sobre los datos de FogRenderer (entorno y distancia de dibujado), y la fuga de GPU libera las texturas de los RenderTarget descartados.
+
+## Credits and license
+
+Parts of this mod are based on code from [Minecraft Borderless Window](https://www.curseforge.com/minecraft/mc-mods/minecraft-borderless-window) by [ArrivedBog593](https://www.curseforge.com/members/arrivedbog593/projects), used under the MIT License:
+
+*   Borderless fullscreen and the F11 window modes
+*   Fog toggles (terrain, water, lava and powder snow)
+*   Screen overlay toggles (water and fire)
+
+The original copyright notice and the full MIT License text are included in [THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt), which is also packaged inside the mod jar. Thanks to ArrivedBog593 for the original work.
