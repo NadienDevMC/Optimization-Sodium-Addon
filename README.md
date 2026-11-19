@@ -74,4 +74,4 @@ Parts of this mod are based on code from [Minecraft Borderless Window](https://w
 *   Fog toggles (terrain, water, lava and powder snow)
 *   Screen overlay toggles (water and fire)
 
-The original copyright notice and the full MIT License text are included in the [LICENSE](https://github.com/NadienDevMC/Optimization-Sodium-Addon/blob/Neo/1.21.1/LICENSE) file. Thanks to ArrivedBog593 for the original work.
+The original copyright notice and the full MIT License text are included in [THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt), which is also packaged inside the mod jar. Thanks to ArrivedBog593 for the original work.
