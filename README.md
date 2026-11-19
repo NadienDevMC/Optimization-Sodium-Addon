@@ -1,33 +1,33 @@
 # Optimizer Sodium Addon (Fabric 26.3)
 
-Fabric Loader 0.20.1 · Fabric API 0.165.0+26.3 · Sodium 0.9.2 (API de configuracion, opcional) · modid `optimizersodiumaddon` · paquete `nadiendev.osa` · autor NadienDev
+Fabric Loader 0.20.1 · Fabric API 0.165.0+26.3 · Sodium 0.9.2 (config API, optional) · modid `optimizersodiumaddon` · package `nadiendev.osa` · author NadienDev
 
-Se instala en cliente y servidor. No agrega bloques, items ni paquetes de red.
+Install it on both client and server. It adds no blocks, items or network packets.
 
-## Compilar
+## Building
 
 ```
 JAVA_HOME="C:/Program Files/Java/jdk-25.0.2" ./gradlew build
 ```
 
-El jar queda en `build/libs/`. Fabric Loom 1.19.3 (Minecraft sin ofuscar) con Gradle 9.8.1 y JDK 25.
+The jar ends up in `build/libs/`. Fabric Loom 1.19.3 (unobfuscated Minecraft) with Gradle 9.8.1 and JDK 25.
 
-## Configuracion
+## Configuration
 
-Un solo archivo: `config/optimizersodiumaddon.json`, con las secciones `server`, `common` y `client` (mismos nombres y valores por defecto que la version NeoForge). El webhook de Discord va en `common.discord` y nunca se manda a los jugadores. Se lee al arrancar; `/osa reload` lo vuelve a leer. Los hilos del servidor dedicado siguen en `config/optimizersodiumaddon-threads.properties`.
+A single file: `config/optimizersodiumaddon.json`, with `server`, `common` and `client` sections (same names and defaults as the NeoForge version). The Discord webhook goes in `common.discord` and is never sent to players. It is read at startup; `/osa reload` reads it again. Dedicated server threads are still configured in `config/optimizersodiumaddon-threads.properties`.
 
-Las opciones de cliente tambien se editan desde la pagina "Optimizer Sodium Addon" dentro de las opciones de video de Sodium.
+Client options can also be edited from the "Optimizer Sodium Addon" page inside Sodium's video settings.
 
-## Diferencias con la version 1.21.1
+## Differences from 1.21.1
 
-- El guardado de `SavedData` ya es asincrono en el juego base, asi que solo se guarda `level.dat` en otro hilo (`performance.asyncSave`).
-- La fuga de memoria de GPU se corrige cerrando las texturas y vistas de los `RenderTarget` descartados.
-- Las opciones de niebla modifican los datos de niebla (la de Ceguera y Oscuridad no se toca).
-- Los hilos de fondo del servidor dedicado se cambian en `Util.maxAllowedExecutorThreads`.
-- En 26.3 la ventana es SDL y `Window.toggleFullScreen` ya no existe, asi que se quito el F11 sin bordes (y su opcion `window.borderlessF11`).
-- Las superposiciones de agua y fuego se ocultan en `ScreenEffectRenderer.submitWater` / `submitFire`.
+- `SavedData` saving is already asynchronous in the base game, so only `level.dat` is saved on another thread (`performance.asyncSave`).
+- The GPU memory leak is fixed by closing the textures and views of discarded `RenderTarget`s.
+- The fog options modify the fog data (Blindness and Darkness fog is never touched).
+- Dedicated server background threads are changed in `Util.maxAllowedExecutorThreads`.
+- In 26.3 the window uses SDL and `Window.toggleFullScreen` no longer exists, so borderless F11 was removed (along with its `window.borderlessF11` option).
+- The water and fire overlays are hidden in `ScreenEffectRenderer.submitWater` / `submitFire`.
 
-El resto de funciones, opciones y comandos `/osa` son los mismos que en 1.21.1.
+All other features, options and `/osa` commands are the same as in 1.21.1.
 
 ## Credits and license
 
