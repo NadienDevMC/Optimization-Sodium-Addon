@@ -1,3 +1,9 @@
+/*
+ * Portions of this file are derived from Minecraft Borderless Window
+ * (https://github.com/ArrivedBog593/Borderless-Window),
+ * Copyright (c) 2026 ArrivedBog593, licensed under the MIT License.
+ * See THIRD_PARTY_NOTICES.txt for the full license text.
+ */
 package nadiendev.osa.client;
 
 import nadiendev.osa.config.OsaConfig;
