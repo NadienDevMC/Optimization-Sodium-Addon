@@ -22,3 +22,13 @@ Requiere JDK 25. El jar queda en `build/libs/`.
 - La pagina de opciones de Sodium usa `sodium-neoforge-api` 0.9.2+mc26.2.
 
 Funciones, comandos y opciones de config: igual que en la version 1.21.1.
+
+## Credits and license
+
+Parts of this mod are based on code from [Minecraft Borderless Window](https://www.curseforge.com/minecraft/mc-mods/minecraft-borderless-window) by [ArrivedBog593](https://www.curseforge.com/members/arrivedbog593/projects), used under the MIT License:
+
+*   Borderless fullscreen and the F11 window modes
+*   Fog toggles (terrain, water, lava and powder snow)
+*   Screen overlay toggles (water and fire)
+
+The original copyright notice and the full MIT License text are included in [THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt), which is also packaged inside the mod jar. Thanks to ArrivedBog593 for the original work.
